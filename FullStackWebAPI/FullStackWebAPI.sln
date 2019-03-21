@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStackWebAPI", "FullStackWebAPI\FullStackWebAPI.csproj", "{D1355320-751E-4899-8F6F-F8AAA25E51E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStackWebAPI.Tests", "FullStackWebAPI.Tests\FullStackWebAPI.Tests.csproj", "{0A55AF25-A7F6-4236-AE99-48DCC21C3AC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1355320-751E-4899-8F6F-F8AAA25E51E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1355320-751E-4899-8F6F-F8AAA25E51E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1355320-751E-4899-8F6F-F8AAA25E51E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1355320-751E-4899-8F6F-F8AAA25E51E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A55AF25-A7F6-4236-AE99-48DCC21C3AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A55AF25-A7F6-4236-AE99-48DCC21C3AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A55AF25-A7F6-4236-AE99-48DCC21C3AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A55AF25-A7F6-4236-AE99-48DCC21C3AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
