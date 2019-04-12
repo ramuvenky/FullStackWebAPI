@@ -53,7 +53,7 @@ namespace FullStackWebAPI.Controllers
             else
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }            
+            }
         }
 
         // PUT api/user/5
