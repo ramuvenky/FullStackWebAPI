@@ -312,6 +312,9 @@ namespace FullStackWebAPI.Controllers
                 }                
             }
             task.Status = taskUI.Status;
+            task.Start_Date = taskUI.Start_Date;
+            task.End_date = taskUI.End_date;
+            task.Priority = taskUI.Priority;
 
             _db.Entry(task).State = EntityState.Modified;
 
@@ -339,19 +342,22 @@ namespace FullStackWebAPI.Controllers
         {
             Task task = _db.Tasks.Find(id);
 
-            ParentTask parentTask = _db.ParentTasks.Include(t => t.Task.Select(x => x.TaskId == id)).First(y => y.Task.Any());
+            ParentTask parentTask = _db.ParentTasks.Include(t => t.Task).Where(x => x.Task.Any(y => y.TaskId == id)).FirstOrDefault(y => y.Task.Any());
 
-            if (task == null || parentTask == null)
+            if (task == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            parentTask.Task.Clear();
-            _db.Entry(parentTask).State = System.Data.Entity.EntityState.Modified;
+            if (parentTask != null)
+            {
+                parentTask.Task.Clear();
+                _db.Entry(parentTask).State = System.Data.Entity.EntityState.Modified;
+            }
 
-            Project project = _db.Projects.Include(t => t.Task.Select(x => x.TaskId == id)).First(y => y.Task.Any());
+            Project project = _db.Projects.Include(t => t.Task).Where(x => x.Task.Any(y => y.TaskId == id)).FirstOrDefault(y => y.Task.Any());
 
-            if (task == null || project == null)
+            if (project == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }

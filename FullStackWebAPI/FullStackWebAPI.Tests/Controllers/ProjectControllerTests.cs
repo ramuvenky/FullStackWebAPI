@@ -85,6 +85,7 @@ namespace FullStackWebAPI.Controllers.Tests
                 resultBool = true;
                 projectId = result.First(x => (x.Project_Name == "unitTestingProject" && x.Priority == 3 && x.StartDate == DateTime.Now.Date && x.EndDate == DateTime.Now.Date.AddDays(2) && x.UserId == userId)).ProjectId;
                 controller.Delete(projectId);
+                userController.DeleteUser(userId);
             }
 
             controller.Dispose();
@@ -176,6 +177,7 @@ namespace FullStackWebAPI.Controllers.Tests
             }
 
             controller.Delete(projectId);
+            userController.DeleteUser(userId);
             controller.Dispose();
             userController.Dispose();
 

@@ -42,7 +42,7 @@ namespace FullStackWebAPI.Controllers
                 }
 
                 projectUI.TotalTasks = project.Task.Count();
-                projectUI.TotalCompleted = project.Task.Count(x => x.Status.Equals("Completed"));
+                projectUI.TotalCompleted = project.Task.Count(x => !string.IsNullOrEmpty(x.Status) && x.Status.Equals("Completed"));
 
                 projectUIlist.Add(projectUI);
             }

@@ -1,6 +1,7 @@
 ﻿using FullStackWebAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -56,8 +57,26 @@ namespace FullStackWebAPI.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            ParentTask parentTask = _db.ParentTasks.Find(id);
+            if (parentTask == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            _db.ParentTasks.Remove(parentTask);
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, parentTask);
         }
 
         protected override void Dispose(bool disposing)
