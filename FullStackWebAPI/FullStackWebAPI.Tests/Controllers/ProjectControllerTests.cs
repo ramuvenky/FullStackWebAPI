@@ -94,7 +94,32 @@ namespace FullStackWebAPI.Controllers.Tests
             // Assert
             Assert.That(resultBool, Is.EqualTo(true));
         }
-        
+
+        [Test]
+        public void PutInvalidIdTest()
+        {
+            ProjectController controller = new ProjectController();
+            controller.Request = new System.Net.Http.HttpRequestMessage
+            {
+                RequestUri = new Uri("http://localhost:50328/api/project")
+            };
+            controller.Configuration = new System.Web.Http.HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary { { "controller", "project" } });
+
+            ProjectUI projectTest = new ProjectUI();
+
+            var result = controller.Put(-1, projectTest);
+            Assert.That(result.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
+        }
+
+
         [Test]
         public void PutTest()
         {
@@ -187,6 +212,29 @@ namespace FullStackWebAPI.Controllers.Tests
             Assert.That(projectTestResult.StartDate, Is.EqualTo(DateTime.Now.Date));
             Assert.That(projectTestResult.EndDate, Is.EqualTo(DateTime.Now.Date.AddDays(2)));
             Assert.That(projectTestResult.UserId, Is.EqualTo(userId));
+        }
+
+        [Test]
+        public void DeleteInvalidIdTest()
+        {
+            ProjectController controller = new ProjectController();
+            controller.Request = new System.Net.Http.HttpRequestMessage
+            {
+                RequestUri = new Uri("http://localhost:50328/api/project")
+            };
+            controller.Configuration = new System.Web.Http.HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary { { "controller", "project" } });
+
+
+            var result = controller.Delete(0);
+            Assert.That(result.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.NotFound));
         }
 
         [Test]

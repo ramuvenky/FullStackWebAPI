@@ -28,10 +28,10 @@ namespace FullStackWebAPI.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody]ParentTask parentTask)
@@ -52,9 +52,9 @@ namespace FullStackWebAPI.Controllers
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
 
         // DELETE api/<controller>/5
         public HttpResponseMessage Delete(int id)
