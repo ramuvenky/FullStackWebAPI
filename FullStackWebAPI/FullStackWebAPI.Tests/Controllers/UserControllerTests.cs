@@ -103,7 +103,45 @@ namespace FullStackWebAPI.Controllers.Tests
             Assert.That(result.FirstName, Is.EqualTo("fnameTest"));
             Assert.That(result.LastName, Is.EqualTo("lnameTest"));
         }
-                
+
+        [Test]
+        public void PutTestInvalidId()
+        {
+            UserController controller = new UserController();
+            controller.Request = new System.Net.Http.HttpRequestMessage
+            {
+                RequestUri = new Uri("http://localhost:50328/api/user")
+            };
+            controller.Configuration = new System.Web.Http.HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary { { "controller", "user" } });
+            int userId = -1;
+
+            // Act
+            User userTest = new User();
+            userTest.EmployeeId = "2222";
+            userTest.FirstName = "fnameTest";
+            userTest.LastName = "lnameTest";
+
+            
+            Assert.Throws<HttpResponseException>(() => controller.Get(userId));
+            userTest.FirstName = "nameChanged";
+            var result = controller.Put(userId, userTest);
+            Assert.That(result.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
+            userTest.UserId = userId;
+            result = controller.Put(userId, userTest);
+            controller.Dispose();
+
+            Assert.That(result.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.NotFound));
+        }
+
+
         [Test]
         public void PutTest()
         {
@@ -147,6 +185,32 @@ namespace FullStackWebAPI.Controllers.Tests
 
             // Assert
             Assert.That(userTestForPut.FirstName, Is.EqualTo("nameChanged"));
+        }
+
+        [Test]
+        public void DeleteUserInvalidIdTest()
+        {
+            // Arrange
+            UserController controller = new UserController();
+            controller.Request = new System.Net.Http.HttpRequestMessage
+            {
+                RequestUri = new Uri("http://localhost:50328/api/user")
+            };
+            controller.Configuration = new System.Web.Http.HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
+
+            controller.RequestContext.RouteData = new HttpRouteData(
+                route: new HttpRoute(),
+                values: new HttpRouteValueDictionary { { "controller", "user" } });
+            int userId = 0;
+
+            // Act
+            var result = controller.DeleteUser(userId);
+
+            Assert.That(result.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.NotFound));
         }
 
         [Test]

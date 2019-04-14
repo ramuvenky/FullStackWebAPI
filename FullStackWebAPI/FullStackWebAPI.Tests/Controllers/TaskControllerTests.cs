@@ -139,6 +139,9 @@ namespace FullStackWebAPI.Controllers.Tests
             var taskResult = taskController.Get();
             bool resultBool = false;
 
+            var deleteResult = parentTaskController.Delete(0);
+            Assert.That(deleteResult.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.NotFound));
+
             if (taskResult.Count() > 0 && taskResult.Any(x => (x.ParentTaskId == parentTaskId && x.Priority == 3 && x.Start_Date == DateTime.Now.Date && x.End_date == DateTime.Now.Date.AddDays(2) && x.ProjectId == projectId)))
             {
                 taskTest = taskResult.First(x => (x.ParentTaskId == parentTaskId && x.Priority == 3 && x.Start_Date == DateTime.Now.Date && x.End_date == DateTime.Now.Date.AddDays(2) && x.ProjectId == projectId));

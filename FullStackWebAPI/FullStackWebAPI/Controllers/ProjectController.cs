@@ -51,10 +51,10 @@ namespace FullStackWebAPI.Controllers
         }
 
         // GET api/project/5
-        public string Get(int id)
-        {
-            return "method not used";
-        }
+        //public string Get(int id)
+        //{
+        //    return "method not used";
+        //}
 
         // POST api/project
         public HttpResponseMessage Post([FromBody]ProjectUI projectUI)
@@ -104,12 +104,12 @@ namespace FullStackWebAPI.Controllers
         public HttpResponseMessage Put(int id, [FromBody]ProjectUI projectUI)
         {
             //Project project = new Project(projectUI);
-            Project project = _db.Projects.Include(x => x.User).First(y => y.ProjectId == projectUI.ProjectId);
+            Project project = _db.Projects.Include(x => x.User).FirstOrDefault(y => y.ProjectId == projectUI.ProjectId);
             //User previousUser = project.User.FirstOrDefault(); 
             // _db.Projects.Find(project.ProjectId)!=null?  project.User.First();
             User user = _db.Users.Find(projectUI.UserId);
 
-            if (user != null && ModelState.IsValid)
+            if (user != null && project!=null && ModelState.IsValid)
             {
                 project.User.Clear();
                 project.User.Add(user);
@@ -141,14 +141,13 @@ namespace FullStackWebAPI.Controllers
         // DELETE api/project/5
         public HttpResponseMessage Delete(int id)
         {
-            Project project = _db.Projects.Include(x => x.User).Where(y => y.ProjectId == id).FirstOrDefault();
-            User user = project.User.First();
-
-            if (project == null || user == null)
+            Project project = _db.Projects.Include(x => x.User).FirstOrDefault(y => y.ProjectId == id);
+            
+            if (project == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-
+            
             project.User.Clear();            
             _db.Projects.Remove(project);
 
@@ -161,7 +160,7 @@ namespace FullStackWebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, user);
+            return Request.CreateResponse(HttpStatusCode.OK, project);
         }
 
         protected override void Dispose(bool disposing)
