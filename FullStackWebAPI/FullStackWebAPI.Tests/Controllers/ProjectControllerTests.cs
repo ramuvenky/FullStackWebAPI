@@ -308,6 +308,7 @@ namespace FullStackWebAPI.Controllers.Tests
 
             int initialCount = controller.Get().Count();
             controller.Delete(projectId);
+            userController.DeleteUser(userId);
             int finalCount = controller.Get().Count();
 
             controller.Dispose();
